@@ -1,0 +1,46 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
+group 'com.reuter.traffic'
+version '1.0-SNAPSHOT'
+description 'Vehicle Survey'
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.5'
+}
+
+jar {
+    doFirst {
+        manifest {
+            if (!configurations.runtime.isEmpty()) {
+                attributes(
+                        'Main-Class': 'com.reuter.traffic.VehicleSurvey',
+                        'Class-Path':
+                                configurations.runtime.collect { it.toURI().toString() }.join(' ')
+                )
+            }
+        }
+    }
+}
